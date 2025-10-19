@@ -65,6 +65,9 @@
 extern "C" {
 #endif
 
+namespace raylib
+{
+
 // High level API. This API is designed in the style of raylib and meant to work with reaylib code.
 // It will manage it's own ImGui context and call common ImGui functions (like NewFrame and Render) for you
 // for a lower level API that matches the other ImGui platforms, please see imgui_impl_raylib.h
@@ -189,6 +192,8 @@ bool rlImGuiImageButton(const char* name, const Texture* image);
 /// <param name="size">The size of the button</param>
 /// <returns>True if the button was clicked</returns>
 RLIMGUIAPI bool rlImGuiImageButtonSize(const char* name, const Texture* image, Vector2 size);
+
+}
 
 #ifdef __cplusplus
 }

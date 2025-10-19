@@ -45,6 +45,9 @@
 #include "extras/FA6FreeSolidFontData.h"
 #endif
 
+namespace raylib
+{
+
 static ImGuiMouseCursor CurrentMouseCursor = ImGuiMouseCursor_COUNT;
 static MouseCursor MouseCursorMap[ImGuiMouseCursor_COUNT];
 
@@ -60,10 +63,10 @@ static bool LastAltPressed = false;
 static bool LastSuperPressed = false;
 
 // internal only functions
-bool rlImGuiIsControlDown() { return IsKeyDown(KEY_RIGHT_CONTROL) || IsKeyDown(KEY_LEFT_CONTROL); }
-bool rlImGuiIsShiftDown() { return IsKeyDown(KEY_RIGHT_SHIFT) || IsKeyDown(KEY_LEFT_SHIFT); }
-bool rlImGuiIsAltDown() { return IsKeyDown(KEY_RIGHT_ALT) || IsKeyDown(KEY_LEFT_ALT); }
-bool rlImGuiIsSuperDown() { return IsKeyDown(KEY_RIGHT_SUPER) || IsKeyDown(KEY_LEFT_SUPER); }
+bool rlImGuiIsControlDown() { return IsKeyDown(KeyboardKey::KEY_RIGHT_CONTROL) || IsKeyDown(KeyboardKey::KEY_LEFT_CONTROL); }
+bool rlImGuiIsShiftDown() { return IsKeyDown(KeyboardKey::KEY_RIGHT_SHIFT) || IsKeyDown(KeyboardKey::KEY_LEFT_SHIFT); }
+bool rlImGuiIsAltDown() { return IsKeyDown(KeyboardKey::KEY_RIGHT_ALT) || IsKeyDown(KeyboardKey::KEY_LEFT_ALT); }
+bool rlImGuiIsSuperDown() { return IsKeyDown(KeyboardKey::KEY_RIGHT_SUPER) || IsKeyDown(KeyboardKey::KEY_LEFT_SUPER); }
 
 struct ImGui_ImplRaylib_Data
 {
@@ -171,7 +174,7 @@ static void ImGuiNewFrame(float deltaTime)
 
                     if (!(io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange))
                     {
-                        SetMouseCursor((imgui_cursor > -1 && imgui_cursor < ImGuiMouseCursor_COUNT) ? MouseCursorMap[imgui_cursor] : MOUSE_CURSOR_DEFAULT);
+                        SetMouseCursor((imgui_cursor > -1 && imgui_cursor < ImGuiMouseCursor_COUNT) ? MouseCursorMap[imgui_cursor] : MouseCursor::MOUSE_CURSOR_DEFAULT);
                     }
                 }
             }
@@ -250,15 +253,15 @@ static void EnableScissor(float x, float y, float width, float height)
 
 static void SetupMouseCursors(void)
 {
-    MouseCursorMap[ImGuiMouseCursor_Arrow] = MOUSE_CURSOR_ARROW;
-    MouseCursorMap[ImGuiMouseCursor_TextInput] = MOUSE_CURSOR_IBEAM;
-    MouseCursorMap[ImGuiMouseCursor_Hand] = MOUSE_CURSOR_POINTING_HAND;
-    MouseCursorMap[ImGuiMouseCursor_ResizeAll] = MOUSE_CURSOR_RESIZE_ALL;
-    MouseCursorMap[ImGuiMouseCursor_ResizeEW] = MOUSE_CURSOR_RESIZE_EW;
-    MouseCursorMap[ImGuiMouseCursor_ResizeNESW] = MOUSE_CURSOR_RESIZE_NESW;
-    MouseCursorMap[ImGuiMouseCursor_ResizeNS] = MOUSE_CURSOR_RESIZE_NS;
-    MouseCursorMap[ImGuiMouseCursor_ResizeNWSE] = MOUSE_CURSOR_RESIZE_NWSE;
-    MouseCursorMap[ImGuiMouseCursor_NotAllowed] = MOUSE_CURSOR_NOT_ALLOWED;
+    MouseCursorMap[ImGuiMouseCursor_Arrow] = MouseCursor::MOUSE_CURSOR_ARROW;
+    MouseCursorMap[ImGuiMouseCursor_TextInput] = MouseCursor::MOUSE_CURSOR_IBEAM;
+    MouseCursorMap[ImGuiMouseCursor_Hand] = MouseCursor::MOUSE_CURSOR_POINTING_HAND;
+    MouseCursorMap[ImGuiMouseCursor_ResizeAll] = MouseCursor::MOUSE_CURSOR_RESIZE_ALL;
+    MouseCursorMap[ImGuiMouseCursor_ResizeEW] = MouseCursor::MOUSE_CURSOR_RESIZE_EW;
+    MouseCursorMap[ImGuiMouseCursor_ResizeNESW] = MouseCursor::MOUSE_CURSOR_RESIZE_NESW;
+    MouseCursorMap[ImGuiMouseCursor_ResizeNS] = MouseCursor::MOUSE_CURSOR_RESIZE_NS;
+    MouseCursorMap[ImGuiMouseCursor_ResizeNWSE] = MouseCursor::MOUSE_CURSOR_RESIZE_NWSE;
+    MouseCursorMap[ImGuiMouseCursor_NotAllowed] = MouseCursor::MOUSE_CURSOR_NOT_ALLOWED;
 }
 
 void SetupFontAwesome(void)
@@ -331,111 +334,111 @@ static void SetupKeymap(void)
         return;
 
     // build up a map of raylib keys to ImGuiKeys
-    RaylibKeyMap[KEY_APOSTROPHE] = ImGuiKey_Apostrophe;
-    RaylibKeyMap[KEY_COMMA] = ImGuiKey_Comma;
-    RaylibKeyMap[KEY_MINUS] = ImGuiKey_Minus;
-    RaylibKeyMap[KEY_PERIOD] = ImGuiKey_Period;
-    RaylibKeyMap[KEY_SLASH] = ImGuiKey_Slash;
-    RaylibKeyMap[KEY_ZERO] = ImGuiKey_0;
-    RaylibKeyMap[KEY_ONE] = ImGuiKey_1;
-    RaylibKeyMap[KEY_TWO] = ImGuiKey_2;
-    RaylibKeyMap[KEY_THREE] = ImGuiKey_3;
-    RaylibKeyMap[KEY_FOUR] = ImGuiKey_4;
-    RaylibKeyMap[KEY_FIVE] = ImGuiKey_5;
-    RaylibKeyMap[KEY_SIX] = ImGuiKey_6;
-    RaylibKeyMap[KEY_SEVEN] = ImGuiKey_7;
-    RaylibKeyMap[KEY_EIGHT] = ImGuiKey_8;
-    RaylibKeyMap[KEY_NINE] = ImGuiKey_9;
-    RaylibKeyMap[KEY_SEMICOLON] = ImGuiKey_Semicolon;
-    RaylibKeyMap[KEY_EQUAL] = ImGuiKey_Equal;
-    RaylibKeyMap[KEY_A] = ImGuiKey_A;
-    RaylibKeyMap[KEY_B] = ImGuiKey_B;
-    RaylibKeyMap[KEY_C] = ImGuiKey_C;
-    RaylibKeyMap[KEY_D] = ImGuiKey_D;
-    RaylibKeyMap[KEY_E] = ImGuiKey_E;
-    RaylibKeyMap[KEY_F] = ImGuiKey_F;
-    RaylibKeyMap[KEY_G] = ImGuiKey_G;
-    RaylibKeyMap[KEY_H] = ImGuiKey_H;
-    RaylibKeyMap[KEY_I] = ImGuiKey_I;
-    RaylibKeyMap[KEY_J] = ImGuiKey_J;
-    RaylibKeyMap[KEY_K] = ImGuiKey_K;
-    RaylibKeyMap[KEY_L] = ImGuiKey_L;
-    RaylibKeyMap[KEY_M] = ImGuiKey_M;
-    RaylibKeyMap[KEY_N] = ImGuiKey_N;
-    RaylibKeyMap[KEY_O] = ImGuiKey_O;
-    RaylibKeyMap[KEY_P] = ImGuiKey_P;
-    RaylibKeyMap[KEY_Q] = ImGuiKey_Q;
-    RaylibKeyMap[KEY_R] = ImGuiKey_R;
-    RaylibKeyMap[KEY_S] = ImGuiKey_S;
-    RaylibKeyMap[KEY_T] = ImGuiKey_T;
-    RaylibKeyMap[KEY_U] = ImGuiKey_U;
-    RaylibKeyMap[KEY_V] = ImGuiKey_V;
-    RaylibKeyMap[KEY_W] = ImGuiKey_W;
-    RaylibKeyMap[KEY_X] = ImGuiKey_X;
-    RaylibKeyMap[KEY_Y] = ImGuiKey_Y;
-    RaylibKeyMap[KEY_Z] = ImGuiKey_Z;
-    RaylibKeyMap[KEY_SPACE] = ImGuiKey_Space;
-    RaylibKeyMap[KEY_ESCAPE] = ImGuiKey_Escape;
-    RaylibKeyMap[KEY_ENTER] = ImGuiKey_Enter;
-    RaylibKeyMap[KEY_TAB] = ImGuiKey_Tab;
-    RaylibKeyMap[KEY_BACKSPACE] = ImGuiKey_Backspace;
-    RaylibKeyMap[KEY_INSERT] = ImGuiKey_Insert;
-    RaylibKeyMap[KEY_DELETE] = ImGuiKey_Delete;
-    RaylibKeyMap[KEY_RIGHT] = ImGuiKey_RightArrow;
-    RaylibKeyMap[KEY_LEFT] = ImGuiKey_LeftArrow;
-    RaylibKeyMap[KEY_DOWN] = ImGuiKey_DownArrow;
-    RaylibKeyMap[KEY_UP] = ImGuiKey_UpArrow;
-    RaylibKeyMap[KEY_PAGE_UP] = ImGuiKey_PageUp;
-    RaylibKeyMap[KEY_PAGE_DOWN] = ImGuiKey_PageDown;
-    RaylibKeyMap[KEY_HOME] = ImGuiKey_Home;
-    RaylibKeyMap[KEY_END] = ImGuiKey_End;
-    RaylibKeyMap[KEY_CAPS_LOCK] = ImGuiKey_CapsLock;
-    RaylibKeyMap[KEY_SCROLL_LOCK] = ImGuiKey_ScrollLock;
-    RaylibKeyMap[KEY_NUM_LOCK] = ImGuiKey_NumLock;
-    RaylibKeyMap[KEY_PRINT_SCREEN] = ImGuiKey_PrintScreen;
-    RaylibKeyMap[KEY_PAUSE] = ImGuiKey_Pause;
-    RaylibKeyMap[KEY_F1] = ImGuiKey_F1;
-    RaylibKeyMap[KEY_F2] = ImGuiKey_F2;
-    RaylibKeyMap[KEY_F3] = ImGuiKey_F3;
-    RaylibKeyMap[KEY_F4] = ImGuiKey_F4;
-    RaylibKeyMap[KEY_F5] = ImGuiKey_F5;
-    RaylibKeyMap[KEY_F6] = ImGuiKey_F6;
-    RaylibKeyMap[KEY_F7] = ImGuiKey_F7;
-    RaylibKeyMap[KEY_F8] = ImGuiKey_F8;
-    RaylibKeyMap[KEY_F9] = ImGuiKey_F9;
-    RaylibKeyMap[KEY_F10] = ImGuiKey_F10;
-    RaylibKeyMap[KEY_F11] = ImGuiKey_F11;
-    RaylibKeyMap[KEY_F12] = ImGuiKey_F12;
-    RaylibKeyMap[KEY_LEFT_SHIFT] = ImGuiKey_LeftShift;
-    RaylibKeyMap[KEY_LEFT_CONTROL] = ImGuiKey_LeftCtrl;
-    RaylibKeyMap[KEY_LEFT_ALT] = ImGuiKey_LeftAlt;
-    RaylibKeyMap[KEY_LEFT_SUPER] = ImGuiKey_LeftSuper;
-    RaylibKeyMap[KEY_RIGHT_SHIFT] = ImGuiKey_RightShift;
-    RaylibKeyMap[KEY_RIGHT_CONTROL] = ImGuiKey_RightCtrl;
-    RaylibKeyMap[KEY_RIGHT_ALT] = ImGuiKey_RightAlt;
-    RaylibKeyMap[KEY_RIGHT_SUPER] = ImGuiKey_RightSuper;
-    RaylibKeyMap[KEY_KB_MENU] = ImGuiKey_Menu;
-    RaylibKeyMap[KEY_LEFT_BRACKET] = ImGuiKey_LeftBracket;
-    RaylibKeyMap[KEY_BACKSLASH] = ImGuiKey_Backslash;
-    RaylibKeyMap[KEY_RIGHT_BRACKET] = ImGuiKey_RightBracket;
-    RaylibKeyMap[KEY_GRAVE] = ImGuiKey_GraveAccent;
-    RaylibKeyMap[KEY_KP_0] = ImGuiKey_Keypad0;
-    RaylibKeyMap[KEY_KP_1] = ImGuiKey_Keypad1;
-    RaylibKeyMap[KEY_KP_2] = ImGuiKey_Keypad2;
-    RaylibKeyMap[KEY_KP_3] = ImGuiKey_Keypad3;
-    RaylibKeyMap[KEY_KP_4] = ImGuiKey_Keypad4;
-    RaylibKeyMap[KEY_KP_5] = ImGuiKey_Keypad5;
-    RaylibKeyMap[KEY_KP_6] = ImGuiKey_Keypad6;
-    RaylibKeyMap[KEY_KP_7] = ImGuiKey_Keypad7;
-    RaylibKeyMap[KEY_KP_8] = ImGuiKey_Keypad8;
-    RaylibKeyMap[KEY_KP_9] = ImGuiKey_Keypad9;
-    RaylibKeyMap[KEY_KP_DECIMAL] = ImGuiKey_KeypadDecimal;
-    RaylibKeyMap[KEY_KP_DIVIDE] = ImGuiKey_KeypadDivide;
-    RaylibKeyMap[KEY_KP_MULTIPLY] = ImGuiKey_KeypadMultiply;
-    RaylibKeyMap[KEY_KP_SUBTRACT] = ImGuiKey_KeypadSubtract;
-    RaylibKeyMap[KEY_KP_ADD] = ImGuiKey_KeypadAdd;
-    RaylibKeyMap[KEY_KP_ENTER] = ImGuiKey_KeypadEnter;
-    RaylibKeyMap[KEY_KP_EQUAL] = ImGuiKey_KeypadEqual;
+    RaylibKeyMap[KeyboardKey::KEY_APOSTROPHE] = ImGuiKey_Apostrophe;
+    RaylibKeyMap[KeyboardKey::KEY_COMMA] = ImGuiKey_Comma;
+    RaylibKeyMap[KeyboardKey::KEY_MINUS] = ImGuiKey_Minus;
+    RaylibKeyMap[KeyboardKey::KEY_PERIOD] = ImGuiKey_Period;
+    RaylibKeyMap[KeyboardKey::KEY_SLASH] = ImGuiKey_Slash;
+    RaylibKeyMap[KeyboardKey::KEY_ZERO] = ImGuiKey_0;
+    RaylibKeyMap[KeyboardKey::KEY_ONE] = ImGuiKey_1;
+    RaylibKeyMap[KeyboardKey::KEY_TWO] = ImGuiKey_2;
+    RaylibKeyMap[KeyboardKey::KEY_THREE] = ImGuiKey_3;
+    RaylibKeyMap[KeyboardKey::KEY_FOUR] = ImGuiKey_4;
+    RaylibKeyMap[KeyboardKey::KEY_FIVE] = ImGuiKey_5;
+    RaylibKeyMap[KeyboardKey::KEY_SIX] = ImGuiKey_6;
+    RaylibKeyMap[KeyboardKey::KEY_SEVEN] = ImGuiKey_7;
+    RaylibKeyMap[KeyboardKey::KEY_EIGHT] = ImGuiKey_8;
+    RaylibKeyMap[KeyboardKey::KEY_NINE] = ImGuiKey_9;
+    RaylibKeyMap[KeyboardKey::KEY_SEMICOLON] = ImGuiKey_Semicolon;
+    RaylibKeyMap[KeyboardKey::KEY_EQUAL] = ImGuiKey_Equal;
+    RaylibKeyMap[KeyboardKey::KEY_A] = ImGuiKey_A;
+    RaylibKeyMap[KeyboardKey::KEY_B] = ImGuiKey_B;
+    RaylibKeyMap[KeyboardKey::KEY_C] = ImGuiKey_C;
+    RaylibKeyMap[KeyboardKey::KEY_D] = ImGuiKey_D;
+    RaylibKeyMap[KeyboardKey::KEY_E] = ImGuiKey_E;
+    RaylibKeyMap[KeyboardKey::KEY_F] = ImGuiKey_F;
+    RaylibKeyMap[KeyboardKey::KEY_G] = ImGuiKey_G;
+    RaylibKeyMap[KeyboardKey::KEY_H] = ImGuiKey_H;
+    RaylibKeyMap[KeyboardKey::KEY_I] = ImGuiKey_I;
+    RaylibKeyMap[KeyboardKey::KEY_J] = ImGuiKey_J;
+    RaylibKeyMap[KeyboardKey::KEY_K] = ImGuiKey_K;
+    RaylibKeyMap[KeyboardKey::KEY_L] = ImGuiKey_L;
+    RaylibKeyMap[KeyboardKey::KEY_M] = ImGuiKey_M;
+    RaylibKeyMap[KeyboardKey::KEY_N] = ImGuiKey_N;
+    RaylibKeyMap[KeyboardKey::KEY_O] = ImGuiKey_O;
+    RaylibKeyMap[KeyboardKey::KEY_P] = ImGuiKey_P;
+    RaylibKeyMap[KeyboardKey::KEY_Q] = ImGuiKey_Q;
+    RaylibKeyMap[KeyboardKey::KEY_R] = ImGuiKey_R;
+    RaylibKeyMap[KeyboardKey::KEY_S] = ImGuiKey_S;
+    RaylibKeyMap[KeyboardKey::KEY_T] = ImGuiKey_T;
+    RaylibKeyMap[KeyboardKey::KEY_U] = ImGuiKey_U;
+    RaylibKeyMap[KeyboardKey::KEY_V] = ImGuiKey_V;
+    RaylibKeyMap[KeyboardKey::KEY_W] = ImGuiKey_W;
+    RaylibKeyMap[KeyboardKey::KEY_X] = ImGuiKey_X;
+    RaylibKeyMap[KeyboardKey::KEY_Y] = ImGuiKey_Y;
+    RaylibKeyMap[KeyboardKey::KEY_Z] = ImGuiKey_Z;
+    RaylibKeyMap[KeyboardKey::KEY_SPACE] = ImGuiKey_Space;
+    RaylibKeyMap[KeyboardKey::KEY_ESCAPE] = ImGuiKey_Escape;
+    RaylibKeyMap[KeyboardKey::KEY_ENTER] = ImGuiKey_Enter;
+    RaylibKeyMap[KeyboardKey::KEY_TAB] = ImGuiKey_Tab;
+    RaylibKeyMap[KeyboardKey::KEY_BACKSPACE] = ImGuiKey_Backspace;
+    RaylibKeyMap[KeyboardKey::KEY_INSERT] = ImGuiKey_Insert;
+    RaylibKeyMap[KeyboardKey::KEY_DELETE] = ImGuiKey_Delete;
+    RaylibKeyMap[KeyboardKey::KEY_RIGHT] = ImGuiKey_RightArrow;
+    RaylibKeyMap[KeyboardKey::KEY_LEFT] = ImGuiKey_LeftArrow;
+    RaylibKeyMap[KeyboardKey::KEY_DOWN] = ImGuiKey_DownArrow;
+    RaylibKeyMap[KeyboardKey::KEY_UP] = ImGuiKey_UpArrow;
+    RaylibKeyMap[KeyboardKey::KEY_PAGE_UP] = ImGuiKey_PageUp;
+    RaylibKeyMap[KeyboardKey::KEY_PAGE_DOWN] = ImGuiKey_PageDown;
+    RaylibKeyMap[KeyboardKey::KEY_HOME] = ImGuiKey_Home;
+    RaylibKeyMap[KeyboardKey::KEY_END] = ImGuiKey_End;
+    RaylibKeyMap[KeyboardKey::KEY_CAPS_LOCK] = ImGuiKey_CapsLock;
+    RaylibKeyMap[KeyboardKey::KEY_SCROLL_LOCK] = ImGuiKey_ScrollLock;
+    RaylibKeyMap[KeyboardKey::KEY_NUM_LOCK] = ImGuiKey_NumLock;
+    RaylibKeyMap[KeyboardKey::KEY_PRINT_SCREEN] = ImGuiKey_PrintScreen;
+    RaylibKeyMap[KeyboardKey::KEY_PAUSE] = ImGuiKey_Pause;
+    RaylibKeyMap[KeyboardKey::KEY_F1] = ImGuiKey_F1;
+    RaylibKeyMap[KeyboardKey::KEY_F2] = ImGuiKey_F2;
+    RaylibKeyMap[KeyboardKey::KEY_F3] = ImGuiKey_F3;
+    RaylibKeyMap[KeyboardKey::KEY_F4] = ImGuiKey_F4;
+    RaylibKeyMap[KeyboardKey::KEY_F5] = ImGuiKey_F5;
+    RaylibKeyMap[KeyboardKey::KEY_F6] = ImGuiKey_F6;
+    RaylibKeyMap[KeyboardKey::KEY_F7] = ImGuiKey_F7;
+    RaylibKeyMap[KeyboardKey::KEY_F8] = ImGuiKey_F8;
+    RaylibKeyMap[KeyboardKey::KEY_F9] = ImGuiKey_F9;
+    RaylibKeyMap[KeyboardKey::KEY_F10] = ImGuiKey_F10;
+    RaylibKeyMap[KeyboardKey::KEY_F11] = ImGuiKey_F11;
+    RaylibKeyMap[KeyboardKey::KEY_F12] = ImGuiKey_F12;
+    RaylibKeyMap[KeyboardKey::KEY_LEFT_SHIFT] = ImGuiKey_LeftShift;
+    RaylibKeyMap[KeyboardKey::KEY_LEFT_CONTROL] = ImGuiKey_LeftCtrl;
+    RaylibKeyMap[KeyboardKey::KEY_LEFT_ALT] = ImGuiKey_LeftAlt;
+    RaylibKeyMap[KeyboardKey::KEY_LEFT_SUPER] = ImGuiKey_LeftSuper;
+    RaylibKeyMap[KeyboardKey::KEY_RIGHT_SHIFT] = ImGuiKey_RightShift;
+    RaylibKeyMap[KeyboardKey::KEY_RIGHT_CONTROL] = ImGuiKey_RightCtrl;
+    RaylibKeyMap[KeyboardKey::KEY_RIGHT_ALT] = ImGuiKey_RightAlt;
+    RaylibKeyMap[KeyboardKey::KEY_RIGHT_SUPER] = ImGuiKey_RightSuper;
+    RaylibKeyMap[KeyboardKey::KEY_KB_MENU] = ImGuiKey_Menu;
+    RaylibKeyMap[KeyboardKey::KEY_LEFT_BRACKET] = ImGuiKey_LeftBracket;
+    RaylibKeyMap[KeyboardKey::KEY_BACKSLASH] = ImGuiKey_Backslash;
+    RaylibKeyMap[KeyboardKey::KEY_RIGHT_BRACKET] = ImGuiKey_RightBracket;
+    RaylibKeyMap[KeyboardKey::KEY_GRAVE] = ImGuiKey_GraveAccent;
+    RaylibKeyMap[KeyboardKey::KEY_KP_0] = ImGuiKey_Keypad0;
+    RaylibKeyMap[KeyboardKey::KEY_KP_1] = ImGuiKey_Keypad1;
+    RaylibKeyMap[KeyboardKey::KEY_KP_2] = ImGuiKey_Keypad2;
+    RaylibKeyMap[KeyboardKey::KEY_KP_3] = ImGuiKey_Keypad3;
+    RaylibKeyMap[KeyboardKey::KEY_KP_4] = ImGuiKey_Keypad4;
+    RaylibKeyMap[KeyboardKey::KEY_KP_5] = ImGuiKey_Keypad5;
+    RaylibKeyMap[KeyboardKey::KEY_KP_6] = ImGuiKey_Keypad6;
+    RaylibKeyMap[KeyboardKey::KEY_KP_7] = ImGuiKey_Keypad7;
+    RaylibKeyMap[KeyboardKey::KEY_KP_8] = ImGuiKey_Keypad8;
+    RaylibKeyMap[KeyboardKey::KEY_KP_9] = ImGuiKey_Keypad9;
+    RaylibKeyMap[KeyboardKey::KEY_KP_DECIMAL] = ImGuiKey_KeypadDecimal;
+    RaylibKeyMap[KeyboardKey::KEY_KP_DIVIDE] = ImGuiKey_KeypadDivide;
+    RaylibKeyMap[KeyboardKey::KEY_KP_MULTIPLY] = ImGuiKey_KeypadMultiply;
+    RaylibKeyMap[KeyboardKey::KEY_KP_SUBTRACT] = ImGuiKey_KeypadSubtract;
+    RaylibKeyMap[KeyboardKey::KEY_KP_ADD] = ImGuiKey_KeypadAdd;
+    RaylibKeyMap[KeyboardKey::KEY_KP_ENTER] = ImGuiKey_KeypadEnter;
+    RaylibKeyMap[KeyboardKey::KEY_KP_EQUAL] = ImGuiKey_KeypadEqual;
 }
 
 static void SetupGlobals(void)
@@ -711,7 +714,7 @@ void ImGui_ImplRaylib_UpdateTexture(ImTextureData* tex)
             img.width = tex->Width;
             img.height = tex->Height;
 
-            img.format = tex->Format == ImTextureFormat_Alpha8 ? PIXELFORMAT_UNCOMPRESSED_GRAYSCALE : PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
+            img.format = tex->Format == ImTextureFormat_Alpha8 ? PixelFormat::PIXELFORMAT_UNCOMPRESSED_GRAYSCALE : PixelFormat::PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
             img.mipmaps = 1;
             img.data = tex->GetPixels();
 
@@ -791,9 +794,9 @@ void ImGui_ImplRaylib_RenderDrawData(ImDrawData* draw_data)
 
 void HandleGamepadButtonEvent(ImGuiIO& io, GamepadButton button, ImGuiKey key)
 {
-    if (IsGamepadButtonPressed(0, button))
+    if (IsGamepadButtonPressed(0, std::to_underlying(button)))
         io.AddKeyEvent(key, true);
-    else if (IsGamepadButtonReleased(0, button))
+    else if (IsGamepadButtonReleased(0, std::to_underlying(button)))
         io.AddKeyEvent(key, false);
 }
 
@@ -840,7 +843,7 @@ bool ImGui_ImplRaylib_ProcessEvents(void)
     // walk the keymap and check for up and down events
     for (const auto keyItr : RaylibKeyMap)
     {
-        if (IsKeyReleased(keyItr.first))
+        if (IsKeyReleased(std::to_underlying(keyItr.first)))
             io.AddKeyEvent(keyItr.second, false);
         else if(IsKeyPressed(keyItr.first))
             io.AddKeyEvent(keyItr.second, true);
@@ -870,7 +873,7 @@ bool ImGui_ImplRaylib_ProcessEvents(void)
             io.AddMousePosEvent(float(GetMouseX()), float(GetMouseY()));
         }
 
-        auto setMouseEvent = [&io](int rayMouse, int imGuiMouse)
+        auto setMouseEvent = [&io](MouseButton rayMouse, int imGuiMouse)
             {
                 if (IsMouseButtonPressed(rayMouse))
                     io.AddMouseButtonEvent(imGuiMouse, true);
@@ -878,11 +881,11 @@ bool ImGui_ImplRaylib_ProcessEvents(void)
                     io.AddMouseButtonEvent(imGuiMouse, false);
             };
 
-        setMouseEvent(MOUSE_BUTTON_LEFT, ImGuiMouseButton_Left);
-        setMouseEvent(MOUSE_BUTTON_RIGHT, ImGuiMouseButton_Right);
-        setMouseEvent(MOUSE_BUTTON_MIDDLE, ImGuiMouseButton_Middle);
-        setMouseEvent(MOUSE_BUTTON_FORWARD, ImGuiMouseButton_Middle + 1);
-        setMouseEvent(MOUSE_BUTTON_BACK, ImGuiMouseButton_Middle + 2);
+        setMouseEvent(MouseButton::MOUSE_BUTTON_LEFT, ImGuiMouseButton_Left);
+        setMouseEvent(MouseButton::MOUSE_BUTTON_RIGHT, ImGuiMouseButton_Right);
+        setMouseEvent(MouseButton::MOUSE_BUTTON_MIDDLE, ImGuiMouseButton_Middle);
+        setMouseEvent(MouseButton::MOUSE_BUTTON_FORWARD, ImGuiMouseButton_Middle + 1);
+        setMouseEvent(MouseButton::MOUSE_BUTTON_BACK, ImGuiMouseButton_Middle + 2);
 
         {
             Vector2 mouseWheel = GetMouseWheelMoveV();
@@ -896,34 +899,36 @@ bool ImGui_ImplRaylib_ProcessEvents(void)
 
     if (io.ConfigFlags & ImGuiConfigFlags_NavEnableGamepad && IsGamepadAvailable(0))
     {
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_LEFT_FACE_UP, ImGuiKey_GamepadDpadUp);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_LEFT_FACE_RIGHT, ImGuiKey_GamepadDpadRight);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_LEFT_FACE_DOWN, ImGuiKey_GamepadDpadDown);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_LEFT_FACE_LEFT, ImGuiKey_GamepadDpadLeft);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_UP, ImGuiKey_GamepadDpadUp);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_RIGHT, ImGuiKey_GamepadDpadRight);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_DOWN, ImGuiKey_GamepadDpadDown);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_LEFT, ImGuiKey_GamepadDpadLeft);
 
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_RIGHT_FACE_UP, ImGuiKey_GamepadFaceUp);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT, ImGuiKey_GamepadFaceLeft);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_RIGHT_FACE_DOWN, ImGuiKey_GamepadFaceDown);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_RIGHT_FACE_LEFT, ImGuiKey_GamepadFaceRight);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_UP, ImGuiKey_GamepadFaceUp);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_RIGHT, ImGuiKey_GamepadFaceLeft);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_DOWN, ImGuiKey_GamepadFaceDown);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_LEFT, ImGuiKey_GamepadFaceRight);
 
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_LEFT_TRIGGER_1, ImGuiKey_GamepadL1);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_LEFT_TRIGGER_2, ImGuiKey_GamepadL2);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_RIGHT_TRIGGER_1, ImGuiKey_GamepadR1);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_RIGHT_TRIGGER_2, ImGuiKey_GamepadR2);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_LEFT_THUMB, ImGuiKey_GamepadL3);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_RIGHT_THUMB, ImGuiKey_GamepadR3);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_LEFT_TRIGGER_1, ImGuiKey_GamepadL1);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_LEFT_TRIGGER_2, ImGuiKey_GamepadL2);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_RIGHT_TRIGGER_1, ImGuiKey_GamepadR1);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_RIGHT_TRIGGER_2, ImGuiKey_GamepadR2);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_LEFT_THUMB, ImGuiKey_GamepadL3);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_RIGHT_THUMB, ImGuiKey_GamepadR3);
 
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_MIDDLE_LEFT, ImGuiKey_GamepadStart);
-        HandleGamepadButtonEvent(io, GAMEPAD_BUTTON_MIDDLE_RIGHT, ImGuiKey_GamepadBack);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_MIDDLE_LEFT, ImGuiKey_GamepadStart);
+        HandleGamepadButtonEvent(io, GamepadButton::GAMEPAD_BUTTON_MIDDLE_RIGHT, ImGuiKey_GamepadBack);
 
         // left stick
-        HandleGamepadStickEvent(io, GAMEPAD_AXIS_LEFT_X, ImGuiKey_GamepadLStickLeft, ImGuiKey_GamepadLStickRight);
-        HandleGamepadStickEvent(io, GAMEPAD_AXIS_LEFT_Y, ImGuiKey_GamepadLStickUp, ImGuiKey_GamepadLStickDown);
+        HandleGamepadStickEvent(io, GamepadAxis::GAMEPAD_AXIS_LEFT_X, ImGuiKey_GamepadLStickLeft, ImGuiKey_GamepadLStickRight);
+        HandleGamepadStickEvent(io, GamepadAxis::GAMEPAD_AXIS_LEFT_Y, ImGuiKey_GamepadLStickUp, ImGuiKey_GamepadLStickDown);
 
         // right stick
-        HandleGamepadStickEvent(io, GAMEPAD_AXIS_RIGHT_X, ImGuiKey_GamepadRStickLeft, ImGuiKey_GamepadRStickRight);
-        HandleGamepadStickEvent(io, GAMEPAD_AXIS_RIGHT_Y, ImGuiKey_GamepadRStickUp, ImGuiKey_GamepadRStickDown);
+        HandleGamepadStickEvent(io, GamepadAxis::GAMEPAD_AXIS_RIGHT_X, ImGuiKey_GamepadRStickLeft, ImGuiKey_GamepadRStickRight);
+        HandleGamepadStickEvent(io, GamepadAxis::GAMEPAD_AXIS_RIGHT_Y, ImGuiKey_GamepadRStickUp, ImGuiKey_GamepadRStickDown);
     }
 
     return true;
+}
+
 }

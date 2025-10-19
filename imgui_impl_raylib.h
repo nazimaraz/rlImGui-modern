@@ -44,10 +44,15 @@
 #include "imgui.h"      // IMGUI_IMPL_API
 #ifndef IMGUI_DISABLE
 
+namespace raylib
+{
+
 IMGUI_IMPL_API bool ImGui_ImplRaylib_Init(void);
 IMGUI_IMPL_API void ImGui_ImplRaylib_Shutdown(void);
 IMGUI_IMPL_API void ImGui_ImplRaylib_NewFrame(void);
 IMGUI_IMPL_API void ImGui_ImplRaylib_RenderDrawData(ImDrawData* draw_data);
 IMGUI_IMPL_API bool ImGui_ImplRaylib_ProcessEvents(void);
+
+}
 
 #endif // #ifndef IMGUI_DISABLE
